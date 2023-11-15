@@ -1,6 +1,5 @@
 package com.betuel.calorietracker
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -15,8 +14,10 @@ import androidx.navigation.compose.rememberNavController
 import com.betuel.calorietracker.navigation.navigate
 import com.betuel.calorietracker.ui.theme.CalorieTrackerTheme
 import com.betuel.core.navigation.Route
+import com.betuel.onboarding_presentation.activity.ActivityLevelScreen
 import com.betuel.onboarding_presentation.gender.AgeScreen
 import com.betuel.onboarding_presentation.gender.GenderScreen
+import com.betuel.onboarding_presentation.goal.GoalScreen
 import com.betuel.onboarding_presentation.height.HeightScreen
 import com.betuel.onboarding_presentation.weight.WeightScreen
 import com.betuel.onboarding_presentation.welcome.WelcomeScreen
@@ -62,9 +63,11 @@ class MainActivity : ComponentActivity() {
                                 scaffoldState = scaffoldState,
                                 onNavigate = navController::navigate)
                         }
-                        composable(Route.ACTIVITY) {
+                        composable(Route.ACTIVITY_LEVEL) {
+                            ActivityLevelScreen(onNavigate = navController::navigate)
                         }
                         composable(Route.GOAL) {
+                            GoalScreen(onNavigate = navController::navigate)
                         }
                         composable(Route.NUTRIENT_GOAL) {
                         }

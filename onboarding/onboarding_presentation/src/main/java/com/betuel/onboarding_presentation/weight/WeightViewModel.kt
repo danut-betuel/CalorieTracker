@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.betuel.core.R
 import com.betuel.core.domain.preferences.Preferences
-import com.betuel.core.domain.use_case.FilterOutDigits
 import com.betuel.core.navigation.Route
 import com.betuel.core.util.UiEvent
 import com.betuel.core.util.UiText
@@ -45,7 +44,7 @@ class WeightViewModel @Inject constructor(
             }
 
             preferences.saveWeight(weightNumber)
-            _uiEvent.send(UiEvent.Navigate(Route.ACTIVITY))
+            _uiEvent.send(UiEvent.Navigate(Route.ACTIVITY_LEVEL))
         }
     }
 }
