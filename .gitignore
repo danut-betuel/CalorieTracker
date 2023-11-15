@@ -1,5 +1,6 @@
 *.iml
 .gradle
+.idea
 /local.properties
 /.idea/caches
 /.idea/libraries
@@ -13,3 +14,9 @@
 .externalNativeBuild
 .cxx
 local.properties
+app/release/
+.vs/
+build/
+.idea/deploymentTargetDropDown.xml
+.settings/
+.project

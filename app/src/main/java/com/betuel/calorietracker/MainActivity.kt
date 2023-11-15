@@ -9,8 +9,11 @@ import androidx.navigation.compose.rememberNavController
 import com.betuel.calorietracker.navigation.navigate
 import com.betuel.calorietracker.ui.theme.CalorieTrackerTheme
 import com.betuel.core.navigation.Route
+import com.betuel.onboarding_presentation.gender.GenderScreen
 import com.betuel.onboarding_presentation.welcome.WelcomeScreen
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +30,7 @@ class MainActivity : ComponentActivity() {
                     composable(Route.AGE) {
                     }
                     composable(Route.GENDER) {
+                        GenderScreen(onNavigate = navController::navigate)
                     }
                     composable(Route.HEIGHT) {
                     }
