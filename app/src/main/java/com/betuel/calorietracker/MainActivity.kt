@@ -19,6 +19,7 @@ import com.betuel.onboarding_presentation.gender.AgeScreen
 import com.betuel.onboarding_presentation.gender.GenderScreen
 import com.betuel.onboarding_presentation.goal.GoalScreen
 import com.betuel.onboarding_presentation.height.HeightScreen
+import com.betuel.onboarding_presentation.nutrient_goal.NutrientGoalScreen
 import com.betuel.onboarding_presentation.weight.WeightScreen
 import com.betuel.onboarding_presentation.welcome.WelcomeScreen
 import dagger.hilt.android.AndroidEntryPoint
@@ -51,17 +52,20 @@ class MainActivity : ComponentActivity() {
                         composable(Route.AGE) {
                             AgeScreen(
                                 scaffoldState = scaffoldState,
-                                onNavigate = navController::navigate)
+                                onNavigate = navController::navigate
+                            )
                         }
                         composable(Route.HEIGHT) {
                             HeightScreen(
                                 scaffoldState = scaffoldState,
-                                onNavigate = navController::navigate)
+                                onNavigate = navController::navigate
+                            )
                         }
                         composable(Route.WEIGHT) {
                             WeightScreen(
                                 scaffoldState = scaffoldState,
-                                onNavigate = navController::navigate)
+                                onNavigate = navController::navigate
+                            )
                         }
                         composable(Route.ACTIVITY_LEVEL) {
                             ActivityLevelScreen(onNavigate = navController::navigate)
@@ -70,6 +74,10 @@ class MainActivity : ComponentActivity() {
                             GoalScreen(onNavigate = navController::navigate)
                         }
                         composable(Route.NUTRIENT_GOAL) {
+                            NutrientGoalScreen(
+                                scaffoldState = scaffoldState,
+                                onNavigate = navController::navigate
+                            )
                         }
 
                         composable(Route.TRACKER_OVERVIEW) {
