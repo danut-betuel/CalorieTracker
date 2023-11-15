@@ -17,6 +17,8 @@ import com.betuel.calorietracker.ui.theme.CalorieTrackerTheme
 import com.betuel.core.navigation.Route
 import com.betuel.onboarding_presentation.gender.AgeScreen
 import com.betuel.onboarding_presentation.gender.GenderScreen
+import com.betuel.onboarding_presentation.height.HeightScreen
+import com.betuel.onboarding_presentation.weight.WeightScreen
 import com.betuel.onboarding_presentation.welcome.WelcomeScreen
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -51,16 +53,21 @@ class MainActivity : ComponentActivity() {
                                 onNavigate = navController::navigate)
                         }
                         composable(Route.HEIGHT) {
+                            HeightScreen(
+                                scaffoldState = scaffoldState,
+                                onNavigate = navController::navigate)
                         }
                         composable(Route.WEIGHT) {
-                        }
-                        composable(Route.NUTRIENT_GOAL) {
+                            WeightScreen(
+                                scaffoldState = scaffoldState,
+                                onNavigate = navController::navigate)
                         }
                         composable(Route.ACTIVITY) {
                         }
                         composable(Route.GOAL) {
                         }
-
+                        composable(Route.NUTRIENT_GOAL) {
+                        }
 
                         composable(Route.TRACKER_OVERVIEW) {
                         }
