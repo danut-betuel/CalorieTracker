@@ -1,5 +1,8 @@
 package com.betuel.tracker_data.di
 
+import android.app.Application
+import androidx.room.Room
+import com.betuel.tracker_data.local.TrackerDatabase
 import com.betuel.tracker_data.remote.OpenFoodApi
 import com.squareup.moshi.Moshi
 import dagger.Module
@@ -38,5 +41,15 @@ object TrackerDataModule {
             .client(client)
             .build()
             .create()
+    }
+
+    @Provides
+    @Singleton
+    fun provideTrackerDatabase(app: Application): TrackerDatabase {
+        return Room.databaseBuilder(
+            app,
+            TrackerDatabase::class.java,
+            "tracker_db"
+        ).build()
     }
 }
