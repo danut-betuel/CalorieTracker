@@ -75,7 +75,7 @@ class DefaultPreferences(
         val proteinRatio = sharedPref.getFloat(Preferences.KEY_WEIGHT, -1f)
         val fatRatio = sharedPref.getFloat(Preferences.KEY_WEIGHT, -1f)
 
-        return  UserInfo(
+        return UserInfo(
             gender = Gender.fromString(genderString),
             age = age,
             weight = weight,
@@ -84,6 +84,17 @@ class DefaultPreferences(
             goalType = GoalType.fromString(goalTypeString),
             carbRatio = carbRatio,
             proteinRatio = proteinRatio,
-            fatRatio = fatRatio)
+            fatRatio = fatRatio
+        )
+    }
+
+    override fun saveShouldShowOnboarding(shouldShow: Boolean) {
+        sharedPref.edit()
+            .putBoolean(Preferences.KEY_SHOULD_SHOW_ONBOARDING, shouldShow)
+            .apply()
+    }
+
+    override fun loadShouldShowOnboarding(): Boolean {
+        return sharedPref.getBoolean(Preferences.KEY_SHOULD_SHOW_ONBOARDING, true)
     }
 }
