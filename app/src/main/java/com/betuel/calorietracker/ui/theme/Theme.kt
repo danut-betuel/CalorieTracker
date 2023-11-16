@@ -7,8 +7,15 @@ import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
+import com.betuel.core_ui.BrightGreen
+import com.betuel.core_ui.DarkGray
+import com.betuel.core_ui.DarkGreen
 import com.betuel.core_ui.Dimensions
+import com.betuel.core_ui.LightGray
 import com.betuel.core_ui.LocalSpacing
+import com.betuel.core_ui.MediumGray
+import com.betuel.core_ui.Orange
+import com.betuel.core_ui.TextWhite
 
 private val DarkColorPalette = darkColors(
     primary = BrightGreen,

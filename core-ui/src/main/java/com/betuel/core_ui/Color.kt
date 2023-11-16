@@ -1,4 +1,4 @@
-package com.betuel.calorietracker.ui.theme
+package com.betuel.core_ui
 
 import androidx.compose.ui.graphics.Color
 
