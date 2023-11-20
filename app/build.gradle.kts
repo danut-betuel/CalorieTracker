@@ -1,3 +1,5 @@
+import com.android.build.api.dsl.Packaging
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -16,7 +18,7 @@ android {
         versionCode = ProjectConfig.versionCode
         versionName = ProjectConfig.versionName
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.betuel.calorietracker.HiltTestRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -46,6 +48,16 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "/META-INF/LICENSE.md"
+            excludes += "/META-INF/LICENSE-notice.md"
+        }
+    }
+
+    testOptions {
+        packaging{
+            jniLibs {
+                useLegacyPackaging = true
+            }
         }
     }
 }
@@ -108,4 +120,5 @@ dependencies {
     androidTestImplementation(Testing.hiltTesting)
     kaptAndroidTest(DaggerHilt.hiltCompiler)
     androidTestImplementation(Testing.testRunner)
+    debugImplementation("androidx.tracing:tracing:1.1.0")
 }

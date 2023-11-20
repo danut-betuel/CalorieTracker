@@ -31,7 +31,7 @@ class CalculateMealNutrientsTest {
             goalType = GoalType.KeepWeight,
             carbRatio = 0.4f,
             proteinRatio = 0.3f,
-            fatRatio = 0.4f
+            fatRatio = 0.3f
         )
 
         calculateMealNutrients = CalculateMealNutrients(preferences)
