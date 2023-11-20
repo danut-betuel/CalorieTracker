@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.betuel.core.domain.preferences.Preferences
 import com.betuel.core.domain.use_case.FilterOutDigits
-import com.betuel.core.navigation.Route
 import com.betuel.core.util.UiEvent
 import com.betuel.core.util.UiText
 import com.betuel.core.R
@@ -46,7 +45,7 @@ class AgeViewModel @Inject constructor(
             }
 
             preferences.saveAge(ageNumber)
-            _uiEvent.send(UiEvent.Navigate(Route.HEIGHT))
+            _uiEvent.send(UiEvent.Success)
         }
     }
 }

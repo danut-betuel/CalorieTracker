@@ -59,12 +59,12 @@ class CalculateMealNutrients(
         return when (userInfo.gender) {
             is Gender.Male -> {
                 (66.47f + 13.75f * userInfo.weight +
-                        5f * userInfo.height - 6.75 * userInfo.age).roundToInt()
+                        5f * userInfo.height - 6.75f * userInfo.age).roundToInt()
             }
 
             is Gender.Female -> {
                 (665.09f + 9.56f * userInfo.weight +
-                        1.84f * userInfo.height - 4.67 * userInfo.age).roundToInt()
+                        1.84f * userInfo.height - 4.67f * userInfo.age).roundToInt()
             }
         }
     }
@@ -82,7 +82,7 @@ class CalculateMealNutrients(
             is GoalType.GainWeight -> 500
         }
 
-        return (bmr(userInfo) * activityFactory * caloryExtra).roundToInt()
+        return (bmr(userInfo) * activityFactory + caloryExtra).roundToInt()
     }
 
     data class MealNutrients(

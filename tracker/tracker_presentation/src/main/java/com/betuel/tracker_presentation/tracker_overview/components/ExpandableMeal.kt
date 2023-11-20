@@ -64,10 +64,10 @@ fun ExpandableMeal(
                         style = MaterialTheme.typography.h3
                     )
                     Icon(
-                        imageVector = if (meal.isExpended) {
+                        imageVector = if (meal.isExpanded) {
                             Icons.Default.KeyboardArrowUp
                         } else Icons.Default.KeyboardArrowDown,
-                        contentDescription = if (meal.isExpended) {
+                        contentDescription = if (meal.isExpanded) {
                             stringResource(id = R.string.collapse)
                         } else stringResource(id = R.string.extend)
                     )
@@ -105,7 +105,7 @@ fun ExpandableMeal(
             }
         }
         Spacer(modifier = Modifier.height(spacing.spaceMedium))
-        AnimatedVisibility(visible = meal.isExpended) {
+        AnimatedVisibility(visible = meal.isExpanded) {
             content()
         }
     }

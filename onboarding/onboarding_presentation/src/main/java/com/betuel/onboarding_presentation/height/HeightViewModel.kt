@@ -8,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import com.betuel.core.R
 import com.betuel.core.domain.preferences.Preferences
 import com.betuel.core.domain.use_case.FilterOutDigits
-import com.betuel.core.navigation.Route
 import com.betuel.core.util.UiEvent
 import com.betuel.core.util.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -46,7 +45,7 @@ class HeightViewModel @Inject constructor(
             }
 
             preferences.saveHeight(heightNumber)
-            _uiEvent.send(UiEvent.Navigate(Route.WEIGHT))
+            _uiEvent.send(UiEvent.Success)
         }
     }
 }

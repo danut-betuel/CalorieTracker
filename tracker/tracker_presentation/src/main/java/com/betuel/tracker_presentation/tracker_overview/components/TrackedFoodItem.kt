@@ -66,7 +66,8 @@ fun TrackedFoodItem(
                     .Builder(context)
                     .crossfade(true)
                     .error(R.drawable.ic_burger)
-                    .fallback(R.drawable.ic_burger).build(),
+                    .fallback(R.drawable.ic_burger)
+                    .build()
             ),
             contentDescription = trackedFood.name,
             contentScale = ContentScale.Crop,
@@ -97,7 +98,7 @@ fun TrackedFoodItem(
                     trackedFood.amount,
                     trackedFood.calories
                 ),
-                style = MaterialTheme.typography.body2,
+                style = MaterialTheme.typography.body2
             )
         }
         Spacer(modifier = Modifier.width(spacing.spaceMedium))

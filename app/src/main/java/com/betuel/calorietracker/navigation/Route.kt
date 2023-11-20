@@ -1,4 +1,4 @@
-package com.betuel.core.navigation
+package com.betuel.calorietracker.navigation
 
 object Route {
     const val WELCOME = "welcome"

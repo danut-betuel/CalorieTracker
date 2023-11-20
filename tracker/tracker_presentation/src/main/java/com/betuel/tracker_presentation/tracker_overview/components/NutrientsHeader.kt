@@ -36,11 +36,11 @@ fun NutrientsHeader(
 ) {
     val spacing = LocalSpacing.current
     val animatedCalorieCount = animateIntAsState(
-        targetValue = state.totalCalories
+        targetValue = state.totalCalories, label = ""
     )
     Column(
         modifier = modifier
-            .fillMaxSize()
+            .fillMaxWidth()
             .clip(
                 RoundedCornerShape(
                     bottomStart = 50.dp,
@@ -84,7 +84,7 @@ fun NutrientsHeader(
         NutrientsBar(
             carbs = state.totalCarbs,
             protein = state.totalProtein,
-            fat = state.totalProtein,
+            fat = state.totalFat,
             calories = state.totalCalories,
             calorieGoal = state.caloriesGoal,
             modifier = Modifier

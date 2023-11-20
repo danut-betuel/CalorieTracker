@@ -55,7 +55,7 @@ fun NutrientBarInfo(
     ) {
         Canvas(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
                 .aspectRatio(1f)
         ) {
             drawArc(
@@ -69,17 +69,19 @@ fun NutrientBarInfo(
                     cap = StrokeCap.Round
                 )
             )
-            drawArc(
-                color = color,
-                startAngle = 90f,
-                sweepAngle = 360f * angleRatio.value,
-                useCenter = false,
-                size = size,
-                style = Stroke(
-                    width = strokeWidth.toPx(),
-                    cap = StrokeCap.Round
+            if (value <= goal) {
+                drawArc(
+                    color = color,
+                    startAngle = 90f,
+                    sweepAngle = 360f * angleRatio.value,
+                    useCenter = false,
+                    size = size,
+                    style = Stroke(
+                        width = strokeWidth.toPx(),
+                        cap = StrokeCap.Round
+                    )
                 )
-            )
+            }
         }
         Column(
             modifier = Modifier.fillMaxWidth(),
