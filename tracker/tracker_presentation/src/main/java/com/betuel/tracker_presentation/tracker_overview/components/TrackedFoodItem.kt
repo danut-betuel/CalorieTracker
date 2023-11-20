@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -70,7 +71,7 @@ fun TrackedFoodItem(
             contentDescription = trackedFood.name,
             contentScale = ContentScale.Crop,
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxHeight()
                 .aspectRatio(1f)
                 .clip(
                     RoundedCornerShape(
@@ -101,8 +102,7 @@ fun TrackedFoodItem(
         }
         Spacer(modifier = Modifier.width(spacing.spaceMedium))
         Column(
-            modifier = Modifier
-                .fillMaxSize(),
+            modifier = Modifier.fillMaxHeight(),
             verticalArrangement = Arrangement.Center
         ) {
             Icon(
