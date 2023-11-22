@@ -10,14 +10,11 @@ import com.betuel.core.domain.preferences.Preferences
 import com.betuel.core.domain.use_case.FilterOutDigits
 import com.betuel.core.util.UiEvent
 import com.betuel.core.util.UiText
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class HeightViewModel @Inject constructor(
+class HeightViewModel(
     private val preferences: Preferences,
     private val filterOutDigits: FilterOutDigits
 ) : ViewModel() {

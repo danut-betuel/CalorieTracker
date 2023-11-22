@@ -7,15 +7,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.betuel.core.domain.preferences.Preferences
 import com.betuel.tracker_domain.use_case.TrackerUseCases
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class TrackerOverviewViewModel @Inject constructor(
+class TrackerOverviewViewModel(
     preferences: Preferences,
     private val trackerUseCases: TrackerUseCases
 ) : ViewModel() {
@@ -62,8 +59,6 @@ class TrackerOverviewViewModel @Inject constructor(
                     }
                 )
             }
-
-            else -> Unit
         }
     }
 

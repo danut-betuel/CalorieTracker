@@ -6,31 +6,16 @@ import android.content.SharedPreferences
 import com.betuel.core.data.preferences.DefaultPreferences
 import com.betuel.core.domain.preferences.Preferences
 import com.betuel.core.domain.use_case.FilterOutDigits
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import org.koin.android.ext.koin.androidApplication
+import org.koin.dsl.module
 
-@Module
-@InstallIn(SingletonComponent::class)
-object AppModule {
 
-    @Provides
-    @Singleton
-    fun provideSharedPreferences(app: Application): SharedPreferences {
-        return app.getSharedPreferences("shared_pref", MODE_PRIVATE)
-    }
+val appModule = module {
+    single { provideSharedPreferences(androidApplication()) }
+    single<Preferences> { DefaultPreferences(get()) }
+    single { FilterOutDigits() }
+}
 
-    @Provides
-    @Singleton
-    fun providePreferences(sharedPreferences: SharedPreferences): Preferences {
-        return DefaultPreferences(sharedPreferences)
-    }
-
-    @Provides
-    @Singleton
-    fun provideFilterOutDigitsUseCase() : FilterOutDigits {
-        return FilterOutDigits()
-    }
+fun provideSharedPreferences(app: Application): SharedPreferences {
+    return app.getSharedPreferences("shared_pref", MODE_PRIVATE)
 }

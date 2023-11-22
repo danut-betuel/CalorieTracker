@@ -8,14 +8,11 @@ import androidx.lifecycle.viewModelScope
 import com.betuel.core.domain.model.Gender
 import com.betuel.core.domain.preferences.Preferences
 import com.betuel.core.util.UiEvent
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class GenderViewModel @Inject constructor(private val preferences: Preferences) : ViewModel() {
+class GenderViewModel (private val preferences: Preferences) : ViewModel() {
     var selectedGender by mutableStateOf<Gender>(Gender.Male)
         private set
 

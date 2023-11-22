@@ -3,7 +3,6 @@ import com.android.build.api.dsl.Packaging
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("dagger.hilt.android.plugin")
     id("kotlin-kapt")
 }
 
@@ -18,7 +17,7 @@ android {
         versionCode = ProjectConfig.versionCode
         versionName = ProjectConfig.versionName
 
-        testInstrumentationRunner = "com.betuel.calorietracker.HiltTestRunner"
+        testInstrumentationRunner = "com.betuel.calorietracker.KoinTestRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -66,15 +65,14 @@ dependencies {
     implementation(Compose.compiler)
     implementation(Compose.ui)
     implementation(Compose.uiToolingPreview)
-    implementation(Compose.hiltNavigationCompose)
     implementation(Compose.material)
     implementation(Compose.runtime)
     implementation(Compose.navigation)
     implementation(Compose.viewModelCompose)
     implementation(Compose.activityCompose)
 
-    implementation(DaggerHilt.hiltAndroid)
-    kapt(DaggerHilt.hiltCompiler)
+    implementation(Koin.koinAndroid)
+    implementation(Koin.koinCompose)
 
     implementation(project(Modules.core))
     implementation(project(Modules.coreUi))
@@ -117,8 +115,6 @@ dependencies {
     androidTestImplementation(Testing.composeUiTest)
     androidTestImplementation(Testing.mockkAndroid)
     androidTestImplementation(Testing.mockWebServer)
-    androidTestImplementation(Testing.hiltTesting)
-    kaptAndroidTest(DaggerHilt.hiltCompiler)
     androidTestImplementation(Testing.testRunner)
     debugImplementation("androidx.tracing:tracing:1.1.0")
 }

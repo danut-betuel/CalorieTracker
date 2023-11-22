@@ -42,8 +42,6 @@ import com.betuel.tracker_presentation.search.SearchViewModel
 import com.betuel.tracker_presentation.tracker_overview.TrackerOverviewScreen
 import com.betuel.tracker_presentation.tracker_overview.TrackerOverviewViewModel
 import com.google.common.truth.Truth.assertThat
-import dagger.hilt.android.testing.HiltAndroidRule
-import dagger.hilt.android.testing.HiltAndroidTest
 import io.mockk.InternalPlatformDsl.toStr
 import io.mockk.every
 import io.mockk.mockk
@@ -52,11 +50,7 @@ import org.junit.Rule
 import org.junit.Test
 import kotlin.math.roundToInt
 
-@HiltAndroidTest
 class TrackerOverviewE2E {
-
-    @get:Rule
-    val hiltRule = HiltAndroidRule(this)
 
     @get:Rule
     val composeRule = createAndroidComposeRule<MainActivity>()

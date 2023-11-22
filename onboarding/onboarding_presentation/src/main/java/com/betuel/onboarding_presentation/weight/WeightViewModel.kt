@@ -9,14 +9,11 @@ import com.betuel.core.R
 import com.betuel.core.domain.preferences.Preferences
 import com.betuel.core.util.UiEvent
 import com.betuel.core.util.UiText
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class WeightViewModel @Inject constructor(
+class WeightViewModel(
     private val preferences: Preferences
 ) : ViewModel() {
     var weight by mutableStateOf("80.0")

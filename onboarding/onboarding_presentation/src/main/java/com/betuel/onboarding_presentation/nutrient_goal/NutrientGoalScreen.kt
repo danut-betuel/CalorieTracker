@@ -16,18 +16,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.betuel.core.R
 import com.betuel.core.util.UiEvent
 import com.betuel.core_ui.LocalSpacing
 import com.betuel.onboarding_presentation.components.ActionButton
 import com.betuel.onboarding_presentation.components.UnitTextField
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun NutrientGoalScreen(
     scaffoldState: ScaffoldState,
     onNextClick: () -> Unit,
-    viewModel: NutrientGoalViewModel = hiltViewModel()
+    viewModel: NutrientGoalViewModel = getViewModel()
 ) {
     val spacing = LocalSpacing.current
     val context = LocalContext.current

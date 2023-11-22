@@ -17,7 +17,7 @@ import com.betuel.calorietracker.ui.theme.CalorieTrackerTheme
 import com.betuel.core.domain.preferences.Preferences
 import com.betuel.calorietracker.navigation.Route
 import com.betuel.onboarding_presentation.activity.ActivityLevelScreen
-import com.betuel.onboarding_presentation.gender.AgeScreen
+import com.betuel.onboarding_presentation.age.AgeScreen
 import com.betuel.onboarding_presentation.gender.GenderScreen
 import com.betuel.onboarding_presentation.goal.GoalScreen
 import com.betuel.onboarding_presentation.height.HeightScreen
@@ -26,14 +26,11 @@ import com.betuel.onboarding_presentation.weight.WeightScreen
 import com.betuel.onboarding_presentation.welcome.WelcomeScreen
 import com.betuel.tracker_presentation.search.SearchScreen
 import com.betuel.tracker_presentation.tracker_overview.TrackerOverviewScreen
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
 
-@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    @Inject
-    lateinit var preferences: Preferences
+    private val preferences : Preferences by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

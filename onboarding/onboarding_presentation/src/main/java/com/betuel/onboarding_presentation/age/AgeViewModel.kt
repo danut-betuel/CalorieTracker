@@ -10,14 +10,11 @@ import com.betuel.core.domain.use_case.FilterOutDigits
 import com.betuel.core.util.UiEvent
 import com.betuel.core.util.UiText
 import com.betuel.core.R
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class AgeViewModel @Inject constructor(
+class AgeViewModel(
     private val preferences: Preferences,
     private val filterOutDigits: FilterOutDigits
 ) : ViewModel() {

@@ -12,13 +12,13 @@ import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 
-class CalorieTrackerApp : Application() {
+class TestCalorieTrackerApp: Application() {
 
     override fun onCreate() {
         super.onCreate()
 
         startKoin {
-            androidContext(this@CalorieTrackerApp)
+            androidContext(this@TestCalorieTrackerApp)
             androidLogger(Level.NONE)
             modules(
                 listOf(

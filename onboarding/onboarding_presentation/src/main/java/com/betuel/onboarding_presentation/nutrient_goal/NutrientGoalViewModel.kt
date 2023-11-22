@@ -9,14 +9,11 @@ import com.betuel.core.domain.preferences.Preferences
 import com.betuel.core.domain.use_case.FilterOutDigits
 import com.betuel.core.util.UiEvent
 import com.betuel.onboarding_domain.use_case.ValidateNutrients
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class NutrientGoalViewModel @Inject constructor(
+class NutrientGoalViewModel (
     private val preferences: Preferences,
     private val filterOutDigits: FilterOutDigits,
     private val validateNutrients: ValidateNutrients

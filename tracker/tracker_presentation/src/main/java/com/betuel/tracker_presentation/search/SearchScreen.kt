@@ -22,13 +22,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.betuel.core.util.UiEvent
 import com.betuel.core_ui.LocalSpacing
 import com.betuel.core.R
 import com.betuel.tracker_domain.model.MealType
 import com.betuel.tracker_presentation.search.components.SearchTextField
 import com.betuel.tracker_presentation.search.components.TrackableFoodItem
+import org.koin.androidx.compose.getViewModel
 import java.time.LocalDate
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -40,7 +40,7 @@ fun SearchScreen(
     month: Int,
     year: Int,
     onNavigateUp: () -> Unit,
-    viewModel: SearchViewModel = hiltViewModel()
+    viewModel: SearchViewModel = getViewModel()
 ) {
     val spacing = LocalSpacing.current
     val state = viewModel.state

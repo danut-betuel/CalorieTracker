@@ -1,4 +1,4 @@
-package com.betuel.onboarding_presentation.gender
+package com.betuel.onboarding_presentation.age
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,19 +16,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.betuel.core.util.UiEvent
 import com.betuel.core_ui.LocalSpacing
 import com.betuel.core.R
-import com.betuel.onboarding_presentation.age.AgeViewModel
 import com.betuel.onboarding_presentation.components.ActionButton
 import com.betuel.onboarding_presentation.components.UnitTextField
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun AgeScreen(
     scaffoldState: ScaffoldState,
     onNextClick: () -> Unit,
-    viewModel: AgeViewModel = hiltViewModel()
+    viewModel: AgeViewModel = getViewModel()
 ) {
     val spacing = LocalSpacing.current
     val context = LocalContext.current

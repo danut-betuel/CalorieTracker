@@ -8,28 +8,21 @@ import com.betuel.tracker_domain.use_case.GetsFoodsForDate
 import com.betuel.tracker_domain.use_case.SearchFood
 import com.betuel.tracker_domain.use_case.TrackFood
 import com.betuel.tracker_domain.use_case.TrackerUseCases
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
-import dagger.hilt.android.scopes.ViewModelScoped
+import org.koin.dsl.module
 
-@Module
-@InstallIn(ViewModelComponent::class)
-object TrackerDomainModule {
+val trackerDomainModule = module {
+    single { provideTrackerUseCases(get(), get()) }
+}
 
-    @Provides
-    @ViewModelScoped
-    fun provideTrackerUseCases(
-        repository: TrackerRepository,
-        preferences: Preferences
-    ): TrackerUseCases {
-        return TrackerUseCases(
-            trackFood = TrackFood(repository),
-            searchFood = SearchFood(repository),
-            getsFoodsForDate = GetsFoodsForDate(repository),
-            deleteTrackedFood = DeleteTrackFood(repository),
-            calculateMealNutrients = CalculateMealNutrients(preferences)
-        )
-    }
+fun provideTrackerUseCases(
+    repository: TrackerRepository,
+    preferences: Preferences
+): TrackerUseCases {
+    return TrackerUseCases(
+        trackFood = TrackFood(repository),
+        searchFood = SearchFood(repository),
+        getsFoodsForDate = GetsFoodsForDate(repository),
+        deleteTrackedFood = DeleteTrackFood(repository),
+        calculateMealNutrients = CalculateMealNutrients(preferences)
+    )
 }

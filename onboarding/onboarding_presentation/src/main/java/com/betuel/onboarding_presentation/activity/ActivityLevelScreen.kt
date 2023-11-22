@@ -18,18 +18,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.betuel.core.util.UiEvent
 import com.betuel.core_ui.LocalSpacing
 import com.betuel.core.R
 import com.betuel.core.domain.model.ActivityLevel
 import com.betuel.onboarding_presentation.components.ActionButton
 import com.betuel.onboarding_presentation.components.SelectableButton
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun ActivityLevelScreen(
     onNextClick: () -> Unit,
-    viewModel: ActivityLevelViewModel = hiltViewModel()
+    viewModel: ActivityLevelViewModel = getViewModel()
 ) {
     val spacing = LocalSpacing.current
     LaunchedEffect(key1 = true) {

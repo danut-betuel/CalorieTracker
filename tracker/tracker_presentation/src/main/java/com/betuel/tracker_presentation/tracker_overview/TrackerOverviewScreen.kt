@@ -12,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.betuel.core_ui.LocalSpacing
 import com.betuel.core.R
 import com.betuel.tracker_presentation.tracker_overview.components.AddButton
@@ -20,11 +19,12 @@ import com.betuel.tracker_presentation.tracker_overview.components.DaySelector
 import com.betuel.tracker_presentation.tracker_overview.components.ExpandableMeal
 import com.betuel.tracker_presentation.tracker_overview.components.NutrientsHeader
 import com.betuel.tracker_presentation.tracker_overview.components.TrackedFoodItem
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun TrackerOverviewScreen(
     onNavigateToSearch: (String, Int, Int, Int) -> Unit,
-    viewModel: TrackerOverviewViewModel = hiltViewModel()
+    viewModel: TrackerOverviewViewModel = getViewModel()
 ) {
     val spacing = LocalSpacing.current
     val state = viewModel.state
