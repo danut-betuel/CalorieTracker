@@ -24,18 +24,22 @@ import com.betuel.core.R
 import com.betuel.core.domain.model.GoalType
 import com.betuel.onboarding_presentation.components.ActionButton
 import com.betuel.onboarding_presentation.components.SelectableButton
+import com.betuel.onboarding_presentation.destinations.NutrientGoalScreenDestination
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import org.koin.androidx.compose.getViewModel
 
+@Destination
 @Composable
 fun GoalScreen(
-    onNextClick: () -> Unit,
+    navigator: DestinationsNavigator,
     viewModel: GoalViewModel = getViewModel()
 ) {
     val spacing = LocalSpacing.current
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
             when (event) {
-                is UiEvent.Success -> onNextClick()
+                is UiEvent.Success -> navigator.navigate(NutrientGoalScreenDestination)
                 else -> Unit
             }
         }

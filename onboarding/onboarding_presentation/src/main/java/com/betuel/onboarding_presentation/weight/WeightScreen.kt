@@ -21,30 +21,40 @@ import com.betuel.core.util.UiEvent
 import com.betuel.core_ui.LocalSpacing
 import com.betuel.onboarding_presentation.components.ActionButton
 import com.betuel.onboarding_presentation.components.UnitTextField
+import com.betuel.onboarding_presentation.destinations.ActivityLevelScreenDestination
+import com.betuel.onboarding_presentation.destinations.WeightScreenDestination
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import kotlinx.coroutines.flow.Flow
 import org.koin.androidx.compose.getViewModel
 
+@Destination
 @Composable
-fun WeightScreen(
+internal fun WeightScreen(
     scaffoldState: ScaffoldState,
-    onNextClick: () -> Unit,
+    navigator: DestinationsNavigator,
     viewModel: WeightViewModel = getViewModel()
 ) {
-    val spacing = LocalSpacing.current
-    val context = LocalContext.current
-    LaunchedEffect(key1 = true) {
-        viewModel.uiEvent.collect { event ->
-            when (event) {
-                is UiEvent.Success -> onNextClick()
-                is UiEvent.ShowSnackbar -> {
-                    scaffoldState.snackbarHostState.showSnackbar(
-                        message = event.message.asString(context)
-                    )
-                }
+    UiEventEffect(
+        uiEvents = viewModel.uiEvent,
+        scaffoldState = scaffoldState,
+        navigateToNextScreen = { navigator.navigate(ActivityLevelScreenDestination) }
+    )
 
-                else -> Unit
-            }
-        }
-    }
+    WeightScreenContent(
+        weight = viewModel.weight,
+        onWeightEnter = viewModel::onWeightEnter,
+        onNextClick = viewModel::onNextClick
+    )
+}
+
+@Composable
+fun WeightScreenContent(
+    weight: String,
+    onWeightEnter: (String) -> Unit,
+    onNextClick: () -> Unit
+) {
+    val spacing = LocalSpacing.current
 
     Box(
         modifier = Modifier
@@ -62,15 +72,38 @@ fun WeightScreen(
             )
             Spacer(modifier = Modifier.height(spacing.spaceMedium))
             UnitTextField(
-                value = viewModel.weight,
-                onValueChange = viewModel::onWeightEnter,
+                value = weight,
+                onValueChange = onWeightEnter,
                 unit = stringResource(id = R.string.kg)
             )
         }
         ActionButton(
             text = stringResource(id = R.string.next),
-            onClick = viewModel::onNextClick,
+            onClick = onNextClick,
             modifier = Modifier.align(Alignment.BottomEnd)
         )
+    }
+}
+
+@Composable
+private fun UiEventEffect(
+    uiEvents: Flow<UiEvent>,
+    scaffoldState: ScaffoldState,
+    navigateToNextScreen: () -> Unit,
+) {
+    val context = LocalContext.current
+    LaunchedEffect(key1 = true) {
+        uiEvents.collect { event ->
+            when (event) {
+                is UiEvent.Success -> navigateToNextScreen()
+                is UiEvent.ShowSnackbar -> {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = event.message.asString(context)
+                    )
+                }
+
+                else -> Unit
+            }
+        }
     }
 }

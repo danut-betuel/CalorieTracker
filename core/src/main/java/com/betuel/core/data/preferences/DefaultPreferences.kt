@@ -7,7 +7,7 @@ import com.betuel.core.domain.model.GoalType
 import com.betuel.core.domain.model.UserInfo
 import com.betuel.core.domain.preferences.Preferences
 
-class DefaultPreferences(
+class  DefaultPreferences(
     private val sharedPref: SharedPreferences
 ) : Preferences {
     override fun saveGender(gender: Gender) {

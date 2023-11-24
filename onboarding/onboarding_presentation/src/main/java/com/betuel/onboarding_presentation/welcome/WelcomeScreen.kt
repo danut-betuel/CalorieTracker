@@ -16,10 +16,16 @@ import androidx.compose.ui.text.style.TextAlign
 import com.betuel.core.R
 import com.betuel.core_ui.LocalSpacing
 import com.betuel.onboarding_presentation.components.ActionButton
+import com.betuel.onboarding_presentation.destinations.GenderScreenDestination
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootNavGraph
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
+@RootNavGraph(start = true)
+@Destination
 @Composable
 fun WelcomeScreen(
-    onNextClick: () -> Unit
+    navigator: DestinationsNavigator
 ) {
     val spacing = LocalSpacing.current
     Column(
@@ -37,7 +43,8 @@ fun WelcomeScreen(
         Spacer(modifier = Modifier.height(spacing.spaceMedium))
         ActionButton(
             text = stringResource(id = R.string.next),
-            onClick = onNextClick,
-            modifier = Modifier.align(Alignment.CenterHorizontally))
+            onClick = { navigator.navigate(GenderScreenDestination) },
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        )
     }
 }

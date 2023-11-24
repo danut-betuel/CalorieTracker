@@ -19,32 +19,38 @@ import androidx.compose.ui.res.stringResource
 import com.betuel.core.R
 import com.betuel.core.util.UiEvent
 import com.betuel.core_ui.LocalSpacing
+import com.betuel.onboarding_presentation.OnOnboardingFinished
 import com.betuel.onboarding_presentation.components.ActionButton
 import com.betuel.onboarding_presentation.components.UnitTextField
+import com.ramcosta.composedestinations.annotation.Destination
+import kotlinx.coroutines.flow.Flow
 import org.koin.androidx.compose.getViewModel
 
+@Destination
 @Composable
-fun NutrientGoalScreen(
+internal fun NutrientGoalScreen(
     scaffoldState: ScaffoldState,
-    onNextClick: () -> Unit,
+    onOnboardingFinished: OnOnboardingFinished,
     viewModel: NutrientGoalViewModel = getViewModel()
 ) {
-    val spacing = LocalSpacing.current
-    val context = LocalContext.current
-    LaunchedEffect(key1 = true) {
-        viewModel.uiEvent.collect { event ->
-            when (event) {
-                is UiEvent.Success -> onNextClick()
-                is UiEvent.ShowSnackbar -> {
-                    scaffoldState.snackbarHostState.showSnackbar(
-                        message = event.message.asString(context)
-                    )
-                }
+    UiEventEffect(
+        uiEvents = viewModel.uiEvent,
+        scaffoldState = scaffoldState,
+        navigateToNextScreen = onOnboardingFinished::invoke
+    )
 
-                else -> Unit
-            }
-        }
-    }
+    NutrientGoalScreenContent(
+        state = viewModel.state,
+        onEvent = viewModel::onEvent
+    )
+}
+
+@Composable
+fun NutrientGoalScreenContent(
+    state: NutrientGoalState,
+    onEvent: (NutrientGoalEvent) -> Unit,
+) {
+    val spacing = LocalSpacing.current
 
     Box(
         modifier = Modifier
@@ -62,25 +68,25 @@ fun NutrientGoalScreen(
             )
             Spacer(modifier = Modifier.height(spacing.spaceMedium))
             UnitTextField(
-                value = viewModel.state.carbsRatio,
+                value = state.carbsRatio,
                 onValueChange = {
-                    viewModel.onEvent(NutrientGoalEvent.OnCarbRatioEnter(it))
+                    onEvent(NutrientGoalEvent.OnCarbRatioEnter(it))
                 },
                 unit = stringResource(id = R.string.percent_carbs)
             )
             Spacer(modifier = Modifier.height(spacing.spaceMedium))
             UnitTextField(
-                value = viewModel.state.proteinRatio,
+                value = state.proteinRatio,
                 onValueChange = {
-                    viewModel.onEvent(NutrientGoalEvent.OnProteinRatioEnter(it))
+                    onEvent(NutrientGoalEvent.OnProteinRatioEnter(it))
                 },
                 unit = stringResource(id = R.string.percent_proteins)
             )
             Spacer(modifier = Modifier.height(spacing.spaceMedium))
             UnitTextField(
-                value = viewModel.state.fatRatio,
+                value = state.fatRatio,
                 onValueChange = {
-                    viewModel.onEvent(NutrientGoalEvent.OnFatRatioEnter(it))
+                    onEvent(NutrientGoalEvent.OnFatRatioEnter(it))
                 },
                 unit = stringResource(id = R.string.percent_fats)
             )
@@ -88,9 +94,32 @@ fun NutrientGoalScreen(
         ActionButton(
             text = stringResource(id = R.string.next),
             onClick = {
-                viewModel.onEvent(NutrientGoalEvent.OnNextClick)
+                onEvent(NutrientGoalEvent.OnNextClick)
             },
             modifier = Modifier.align(Alignment.BottomEnd)
         )
+    }
+}
+
+@Composable
+private fun UiEventEffect(
+    uiEvents: Flow<UiEvent>,
+    scaffoldState: ScaffoldState,
+    navigateToNextScreen: () -> Unit,
+) {
+    val context = LocalContext.current
+    LaunchedEffect(key1 = true) {
+        uiEvents.collect { event ->
+            when (event) {
+                is UiEvent.Success -> navigateToNextScreen()
+                is UiEvent.ShowSnackbar -> {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = event.message.asString(context)
+                    )
+                }
+
+                else -> Unit
+            }
+        }
     }
 }

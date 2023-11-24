@@ -21,30 +21,39 @@ import com.betuel.core.util.UiEvent
 import com.betuel.core_ui.LocalSpacing
 import com.betuel.onboarding_presentation.components.ActionButton
 import com.betuel.onboarding_presentation.components.UnitTextField
+import com.betuel.onboarding_presentation.destinations.WeightScreenDestination
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import kotlinx.coroutines.flow.Flow
 import org.koin.androidx.compose.getViewModel
 
+@Destination
 @Composable
-fun HeightScreen(
+internal fun HeightScreen(
     scaffoldState: ScaffoldState,
-    onNextClick: () -> Unit,
+    navigator: DestinationsNavigator,
     viewModel: HeightViewModel = getViewModel()
 ) {
-    val spacing = LocalSpacing.current
-    val context = LocalContext.current
-    LaunchedEffect(key1 = true) {
-        viewModel.uiEvent.collect { event ->
-            when (event) {
-                is UiEvent.Success -> onNextClick()
-                is UiEvent.ShowSnackbar -> {
-                    scaffoldState.snackbarHostState.showSnackbar(
-                        message = event.message.asString(context)
-                    )
-                }
+    UiEventEffect(
+        uiEvents = viewModel.uiEvent,
+        scaffoldState = scaffoldState,
+        navigateToNextScreen = { navigator.navigate(WeightScreenDestination) }
+    )
 
-                else -> Unit
-            }
-        }
-    }
+    HeightScreenContent(
+        height = viewModel.height,
+        onHeightEnter = viewModel::onHeightEnter,
+        onNextClick = viewModel::onNextClick
+    )
+}
+
+@Composable
+private fun HeightScreenContent(
+    height: String,
+    onHeightEnter: (String) -> Unit,
+    onNextClick: () -> Unit
+) {
+    val spacing = LocalSpacing.current
 
     Box(
         modifier = Modifier
@@ -62,15 +71,38 @@ fun HeightScreen(
             )
             Spacer(modifier = Modifier.height(spacing.spaceMedium))
             UnitTextField(
-                value = viewModel.height,
-                onValueChange = viewModel::onHeightEnter,
+                value = height,
+                onValueChange = onHeightEnter,
                 unit = stringResource(id = R.string.cm)
             )
         }
         ActionButton(
             text = stringResource(id = R.string.next),
-            onClick = viewModel::onNextClick,
+            onClick = onNextClick,
             modifier = Modifier.align(Alignment.BottomEnd)
         )
+    }
+}
+
+@Composable
+private fun UiEventEffect(
+    uiEvents: Flow<UiEvent>,
+    scaffoldState: ScaffoldState,
+    navigateToNextScreen: () -> Unit,
+) {
+    val context = LocalContext.current
+    LaunchedEffect(key1 = true) {
+        uiEvents.collect { event ->
+            when (event) {
+                is UiEvent.Success -> navigateToNextScreen()
+                is UiEvent.ShowSnackbar -> {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = event.message.asString(context)
+                    )
+                }
+
+                else -> Unit
+            }
+        }
     }
 }

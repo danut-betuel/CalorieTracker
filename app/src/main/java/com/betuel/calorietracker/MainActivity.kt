@@ -8,29 +8,21 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
+import com.betuel.calorietracker.navigation.RootNavGraph
 import com.betuel.calorietracker.ui.theme.CalorieTrackerTheme
 import com.betuel.core.domain.preferences.Preferences
-import com.betuel.calorietracker.navigation.Route
-import com.betuel.onboarding_presentation.activity.ActivityLevelScreen
-import com.betuel.onboarding_presentation.age.AgeScreen
-import com.betuel.onboarding_presentation.gender.GenderScreen
-import com.betuel.onboarding_presentation.goal.GoalScreen
-import com.betuel.onboarding_presentation.height.HeightScreen
-import com.betuel.onboarding_presentation.nutrient_goal.NutrientGoalScreen
-import com.betuel.onboarding_presentation.weight.WeightScreen
-import com.betuel.onboarding_presentation.welcome.WelcomeScreen
-import com.betuel.tracker_presentation.search.SearchScreen
-import com.betuel.tracker_presentation.tracker_overview.TrackerOverviewScreen
+import com.betuel.onboarding_presentation.OnOnboardingFinished
+import com.betuel.onboarding_presentation.OnboardingNavGraph
+import com.betuel.tracker_presentation.TrackerNavGraph
+import com.ramcosta.composedestinations.DestinationsNavHost
+import com.ramcosta.composedestinations.navigation.dependency
 import org.koin.android.ext.android.inject
+import com.ramcosta.composedestinations.navigation.navigate
 
 class MainActivity : ComponentActivity() {
 
-    private val preferences : Preferences by inject()
+    private val preferences: Preferences by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,110 +36,20 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     scaffoldState = scaffoldState
                 ) { paddingValues ->
-                    NavHost(
+                    DestinationsNavHost(
+                        navGraph = RootNavGraph,
                         navController = navController,
-                        startDestination = if (shouldShowOnboarding) {
-                            Route.WELCOME
-                        } else Route.TRACKER_OVERVIEW,
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(bottom = paddingValues.calculateBottomPadding())
-                    ) {
-                        composable(Route.WELCOME) {
-                            WelcomeScreen(onNextClick = {
-                                navController.navigate(Route.GENDER)
-                            })
-                        }
-                        composable(Route.GENDER) {
-                            GenderScreen(onNextClick = {
-                                navController.navigate(Route.AGE)
-                            })
-                        }
-                        composable(Route.AGE) {
-                            AgeScreen(
-                                scaffoldState = scaffoldState,
-                                onNextClick = {
-                                    navController.navigate(Route.HEIGHT)
-                                }
-                            )
-                        }
-                        composable(Route.HEIGHT) {
-                            HeightScreen(
-                                scaffoldState = scaffoldState,
-                                onNextClick = {
-                                    navController.navigate(Route.WEIGHT)
-                                }
-                            )
-                        }
-                        composable(Route.WEIGHT) {
-                            WeightScreen(
-                                scaffoldState = scaffoldState,
-                                onNextClick = {
-                                    navController.navigate(Route.ACTIVITY_LEVEL)
-                                }
-                            )
-                        }
-                        composable(Route.ACTIVITY_LEVEL) {
-                            ActivityLevelScreen(onNextClick = {
-                                navController.navigate(Route.GOAL)
-                            })
-                        }
-                        composable(Route.GOAL) {
-                            GoalScreen(onNextClick = {
-                                navController.navigate(Route.NUTRIENT_GOAL)
-                            })
-                        }
-                        composable(Route.NUTRIENT_GOAL) {
-                            NutrientGoalScreen(
-                                scaffoldState = scaffoldState,
-                                onNextClick = {
-                                    navController.navigate(Route.TRACKER_OVERVIEW)
-                                }
-                            )
-                        }
-
-                        composable(Route.TRACKER_OVERVIEW) {
-                            TrackerOverviewScreen(onNavigateToSearch = { mealName, day, month, year ->
-                                navController.navigate(
-                                    Route.SEARCH + "/$mealName" +
-                                            "/$day" +
-                                            "/$month" +
-                                            "/$year"
-                                )
+                            .padding(bottom = paddingValues.calculateBottomPadding()),
+                        startRoute = if (shouldShowOnboarding) OnboardingNavGraph else TrackerNavGraph,
+                        dependenciesContainerBuilder = {
+                            dependency(scaffoldState)
+                            dependency(OnboardingNavGraph) {
+                                OnOnboardingFinished { navController.navigate(TrackerNavGraph) }
                             }
-                            )
                         }
-                        composable(
-                            route = Route.SEARCH + "/{mealName}/{dayOfMonth}/{month}/{year}",
-                            arguments = listOf(
-                                navArgument("mealName") {
-                                    type = NavType.StringType
-                                },
-                                navArgument("dayOfMonth") {
-                                    type = NavType.IntType
-                                },
-                                navArgument("month") {
-                                    type = NavType.IntType
-                                },
-                                navArgument("year") {
-                                    type = NavType.IntType
-                                }
-                            )
-                        ) { bacStackEntry ->
-                            val mealName = bacStackEntry.arguments?.getString("mealName")!!
-                            val dayOfMonth = bacStackEntry.arguments?.getInt("dayOfMonth")!!
-                            val month = bacStackEntry.arguments?.getInt("month")!!
-                            val year = bacStackEntry.arguments?.getInt("year")!!
-                            SearchScreen(
-                                scaffoldState = scaffoldState,
-                                mealName = mealName,
-                                dayOfMonth = dayOfMonth,
-                                month = month,
-                                year = year,
-                                onNavigateUp = navController::navigateUp
-                            )
-                        }
-                    }
+                    )
                 }
             }
         }

@@ -24,18 +24,22 @@ import com.betuel.core.R
 import com.betuel.core.domain.model.Gender
 import com.betuel.onboarding_presentation.components.ActionButton
 import com.betuel.onboarding_presentation.components.SelectableButton
+import com.betuel.onboarding_presentation.destinations.AgeScreenDestination
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import org.koin.androidx.compose.getViewModel
 
+@Destination
 @Composable
 fun GenderScreen(
-    onNextClick: () -> Unit,
+    navigator: DestinationsNavigator,
     viewModel: GenderViewModel = getViewModel()
 ) {
     val spacing = LocalSpacing.current
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
             when (event) {
-                is UiEvent.Success -> onNextClick()
+                is UiEvent.Success -> navigator.navigate(AgeScreenDestination)
                 else -> Unit
             }
         }

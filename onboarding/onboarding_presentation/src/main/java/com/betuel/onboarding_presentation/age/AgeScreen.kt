@@ -21,12 +21,16 @@ import com.betuel.core_ui.LocalSpacing
 import com.betuel.core.R
 import com.betuel.onboarding_presentation.components.ActionButton
 import com.betuel.onboarding_presentation.components.UnitTextField
+import com.betuel.onboarding_presentation.destinations.HeightScreenDestination
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import org.koin.androidx.compose.getViewModel
 
+@Destination
 @Composable
 fun AgeScreen(
+    navigator: DestinationsNavigator,
     scaffoldState: ScaffoldState,
-    onNextClick: () -> Unit,
     viewModel: AgeViewModel = getViewModel()
 ) {
     val spacing = LocalSpacing.current
@@ -34,7 +38,7 @@ fun AgeScreen(
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
             when (event) {
-                is UiEvent.Success -> onNextClick()
+                is UiEvent.Success -> navigator.navigate(HeightScreenDestination)
                 is UiEvent.ShowSnackbar -> {
                     scaffoldState.snackbarHostState.showSnackbar(
                         message = event.message.asString(context)

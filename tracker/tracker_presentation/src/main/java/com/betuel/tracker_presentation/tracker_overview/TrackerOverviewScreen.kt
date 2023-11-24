@@ -14,16 +14,22 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.betuel.core_ui.LocalSpacing
 import com.betuel.core.R
+import com.betuel.tracker_presentation.destinations.SearchScreenDestination
 import com.betuel.tracker_presentation.tracker_overview.components.AddButton
 import com.betuel.tracker_presentation.tracker_overview.components.DaySelector
 import com.betuel.tracker_presentation.tracker_overview.components.ExpandableMeal
 import com.betuel.tracker_presentation.tracker_overview.components.NutrientsHeader
 import com.betuel.tracker_presentation.tracker_overview.components.TrackedFoodItem
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootNavGraph
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import org.koin.androidx.compose.getViewModel
 
+@RootNavGraph(start = true)
+@Destination
 @Composable
 fun TrackerOverviewScreen(
-    onNavigateToSearch: (String, Int, Int, Int) -> Unit,
+    navigator: DestinationsNavigator,
     viewModel: TrackerOverviewViewModel = getViewModel()
 ) {
     val spacing = LocalSpacing.current
@@ -83,11 +89,13 @@ fun TrackerOverviewScreen(
                                 meal.name.asString(context)
                             ),
                             onClick = {
-                                onNavigateToSearch(
-                                    meal.name.asString(context),
-                                    state.date.dayOfMonth,
-                                    state.date.monthValue,
-                                    state.date.year
+                                navigator.navigate(
+                                    SearchScreenDestination(
+                                        meal.name.asString(context),
+                                        state.date.dayOfMonth,
+                                        state.date.monthValue,
+                                        state.date.year
+                                    )
                                 )
                             },
                             modifier = Modifier.fillMaxWidth()

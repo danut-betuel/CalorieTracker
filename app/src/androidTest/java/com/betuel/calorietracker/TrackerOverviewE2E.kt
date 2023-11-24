@@ -16,12 +16,8 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
-import com.betuel.calorietracker.navigation.Route
+import com.betuel.calorietracker.navigation.RootNavGraph
 import com.betuel.calorietracker.repository.TrackerRepositoryFake
 import com.betuel.calorietracker.ui.theme.CalorieTrackerTheme
 import com.betuel.core.domain.model.ActivityLevel
@@ -37,11 +33,17 @@ import com.betuel.tracker_domain.use_case.GetsFoodsForDate
 import com.betuel.tracker_domain.use_case.SearchFood
 import com.betuel.tracker_domain.use_case.TrackFood
 import com.betuel.tracker_domain.use_case.TrackerUseCases
+import com.betuel.tracker_presentation.TrackerNavGraph
+import com.betuel.tracker_presentation.destinations.SearchScreenDestination
+import com.betuel.tracker_presentation.destinations.TrackerOverviewScreenDestination
 import com.betuel.tracker_presentation.search.SearchScreen
 import com.betuel.tracker_presentation.search.SearchViewModel
 import com.betuel.tracker_presentation.tracker_overview.TrackerOverviewScreen
 import com.betuel.tracker_presentation.tracker_overview.TrackerOverviewViewModel
 import com.google.common.truth.Truth.assertThat
+import com.ramcosta.composedestinations.DestinationsNavHost
+import com.ramcosta.composedestinations.manualcomposablecalls.composable
+import com.ramcosta.composedestinations.navigation.dependency
 import io.mockk.InternalPlatformDsl.toStr
 import io.mockk.every
 import io.mockk.mockk
@@ -105,54 +107,35 @@ class TrackerOverviewE2E {
                     modifier = Modifier.fillMaxSize(),
                     scaffoldState = scaffoldState
                 ) { paddingValues ->
-                    NavHost(
+                    DestinationsNavHost(
+                        navGraph = RootNavGraph,
                         navController = navController,
-                        startDestination = Route.TRACKER_OVERVIEW,
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(bottom = paddingValues.calculateBottomPadding())
+                            .padding(bottom = paddingValues.calculateBottomPadding()),
+                        startRoute = TrackerNavGraph,
+                        dependenciesContainerBuilder = {
+                            dependency(scaffoldState)
+                        }
                     ) {
-                        composable(Route.TRACKER_OVERVIEW) {
+                        composable(TrackerOverviewScreenDestination) {
                             TrackerOverviewScreen(
-                                onNavigateToSearch = { mealName, day, month, year ->
-                                    navController.navigate(
-                                        Route.SEARCH + "/$mealName" +
-                                                "/$day" +
-                                                "/$month" +
-                                                "/$year"
-                                    )
-                                },
+                                navigator = destinationsNavigator,
                                 viewModel = trackerOverviewViewModel
                             )
                         }
-                        composable(
-                            route = Route.SEARCH + "/{mealName}/{dayOfMonth}/{month}/{year}",
-                            arguments = listOf(
-                                navArgument("mealName") {
-                                    type = NavType.StringType
-                                },
-                                navArgument("dayOfMonth") {
-                                    type = NavType.IntType
-                                },
-                                navArgument("month") {
-                                    type = NavType.IntType
-                                },
-                                navArgument("year") {
-                                    type = NavType.IntType
-                                }
-                            )
-                        ) { bacStackEntry ->
-                            val mealName = bacStackEntry.arguments?.getString("mealName")!!
-                            val dayOfMonth = bacStackEntry.arguments?.getInt("dayOfMonth")!!
-                            val month = bacStackEntry.arguments?.getInt("month")!!
-                            val year = bacStackEntry.arguments?.getInt("year")!!
+                        composable(SearchScreenDestination) {
+                            val mealName = navArgs.mealName
+                            val dayOfMonth = navArgs.dayOfMonth
+                            val month = navArgs.month
+                            val year = navArgs.year
                             SearchScreen(
+                                navigator = destinationsNavigator,
                                 scaffoldState = scaffoldState,
                                 mealName = mealName,
                                 dayOfMonth = dayOfMonth,
                                 month = month,
                                 year = year,
-                                onNavigateUp = navController::navigateUp,
                                 viewModel = searchViewModel
                             )
                         }
@@ -198,7 +181,7 @@ class TrackerOverviewE2E {
             navController
                 .currentDestination
                 ?.route
-                ?.startsWith(Route.SEARCH)
+                ?.startsWith(SearchScreenDestination.baseRoute)
         ).isTrue()
 
         composeRule
@@ -225,7 +208,7 @@ class TrackerOverviewE2E {
             navController
                 .currentDestination
                 ?.route
-                ?.startsWith(Route.TRACKER_OVERVIEW)
+                ?.startsWith(TrackerOverviewScreenDestination.baseRoute)
         ).isTrue()
 
         composeRule

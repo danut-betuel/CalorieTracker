@@ -4,6 +4,18 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
+    id("com.google.devtools.ksp") version "1.9.20-1.0.14"
+}
+
+kotlin {
+    sourceSets {
+        debug {
+            kotlin.srcDir("build/generated/ksp/debug/kotlin")
+        }
+        release {
+            kotlin.srcDir("build/generated/ksp/release/kotlin")
+        }
+    }
 }
 
 android {
@@ -88,6 +100,9 @@ dependencies {
     implementation(Coil.coilCompose)
 
     implementation(Google.material)
+
+    implementation(Navigation.composeDestinationsCore)
+    ksp(Navigation.kspDestinations)
 
     implementation(Retrofit.okHttp)
     implementation(Retrofit.retrofit)
